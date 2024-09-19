@@ -1,0 +1,18 @@
+name: CICD with Serverless
+run-name: ${{ github.actor }} is doing CICD with Serverless
+
+on:
+  push:
+    branches: [ main, "*" ]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      
+name: Checkout repository code
+      uses: actions/checkout@v3
