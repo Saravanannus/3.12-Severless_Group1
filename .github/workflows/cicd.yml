@@ -1,26 +1,33 @@
-name: CICD with Serverless
-run-name: ${{ github.actor }} is doing CICD with Serverless
+service: my-service
 
-on:
-  push:
-    branches: [ main, "*" ]
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-1
 
-jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      
-name: Checkout repository code
-      uses: actions/checkout@v3
+functions:
+  httpApiFunction:
+    handler: handler.httpApiHandler
+    events:
+      - httpApi:
+          path: /hello
+          method: get
+          
+  snsFunction:
+    handler: handler.snsHandler
+    events:
+      - sns: mySNSTopic
 
-name: Cache Node.js modules
-      uses: actions/cache@v3
-      with:
-        path: |~/.npm
-          node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |${{ runner.os }}-node-
+resources:
+  Resources:
+    mySNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: mySNSTopic
+
+  Outputs:
+    SnsTopicArn:
+      Value:
+        Ref: mySNSTopic
+      Export:
+        Name: MySNSTopicArn
