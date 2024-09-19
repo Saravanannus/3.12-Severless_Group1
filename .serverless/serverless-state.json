@@ -109,7 +109,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
-                "S3Key": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z/my-service.zip"
+                "S3Key": "serverless/my-service/dev/1726751884698-2024-09-19T13:18:04.698Z/my-service.zip"
               },
               "Handler": "handler.snsHandler",
               "Runtime": "nodejs20.x",
@@ -132,7 +132,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
-                "S3Key": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z/my-service.zip"
+                "S3Key": "serverless/my-service/dev/1726751884698-2024-09-19T13:18:04.698Z/my-service.zip"
               },
               "Handler": "handler.httpHandler",
               "Runtime": "nodejs20.x",
@@ -150,24 +150,24 @@
               "HttpHandlerLogGroup"
             ]
           },
-          "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8": {
+          "SnsHandlerLambdaVersionKGeAuGJmuLVTCuhoa9FTSujU6SOQKmTnXnekLNsZrd0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SnsHandlerLambdaFunction"
               },
-              "CodeSha256": "kHpCWIhVxcZ5awUyl9FTUO9UTySrMUbyLjscsyPhl6Y="
+              "CodeSha256": "GuBSUgmi6/EXxngLzVwuF1dfncyzdokHH78Wa+6ReVg="
             }
           },
-          "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE": {
+          "HttpHandlerLambdaVersionPeWVsoO4KyrQWISTzDjgGcyX1KW63WvVzPYTXd4nqEU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HttpHandlerLambdaFunction"
               },
-              "CodeSha256": "kHpCWIhVxcZ5awUyl9FTUO9UTySrMUbyLjscsyPhl6Y="
+              "CodeSha256": "GuBSUgmi6/EXxngLzVwuF1dfncyzdokHH78Wa+6ReVg="
             }
           },
           "SNSTopicGroup1snstopic": {
@@ -330,7 +330,7 @@
           "SnsHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8"
+              "Ref": "SnsHandlerLambdaVersionKGeAuGJmuLVTCuhoa9FTSujU6SOQKmTnXnekLNsZrd0"
             },
             "Export": {
               "Name": "sls-my-service-dev-SnsHandlerLambdaFunctionQualifiedArn"
@@ -339,7 +339,7 @@
           "HttpHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE"
+              "Ref": "HttpHandlerLambdaVersionPeWVsoO4KyrQWISTzDjgGcyX1KW63WvVzPYTXd4nqEU"
             },
             "Export": {
               "Name": "sls-my-service-dev-HttpHandlerLambdaFunctionQualifiedArn"
@@ -407,7 +407,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8"
+        "versionLogicalId": "SnsHandlerLambdaVersionKGeAuGJmuLVTCuhoa9FTSujU6SOQKmTnXnekLNsZrd0"
       },
       "httpHandler": {
         "handler": "handler.httpHandler",
@@ -427,7 +427,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE"
+        "versionLogicalId": "HttpHandlerLambdaVersionPeWVsoO4KyrQWISTzDjgGcyX1KW63WvVzPYTXd4nqEU"
       }
     },
     "resources": {
@@ -466,7 +466,7 @@
     "artifact": "/home/saravanan/3.12-Severless_Group1/.serverless/my-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z",
+    "artifactDirectoryName": "serverless/my-service/dev/1726751884698-2024-09-19T13:18:04.698Z",
     "artifact": "my-service.zip"
   }
 }

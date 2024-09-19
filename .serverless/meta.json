@@ -119,7 +119,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
-                  "S3Key": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z/my-service.zip"
+                  "S3Key": "serverless/my-service/dev/1726751884698-2024-09-19T13:18:04.698Z/my-service.zip"
                 },
                 "Handler": "handler.snsHandler",
                 "Runtime": "nodejs20.x",
@@ -142,7 +142,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
-                  "S3Key": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z/my-service.zip"
+                  "S3Key": "serverless/my-service/dev/1726751884698-2024-09-19T13:18:04.698Z/my-service.zip"
                 },
                 "Handler": "handler.httpHandler",
                 "Runtime": "nodejs20.x",
@@ -160,24 +160,24 @@
                 "HttpHandlerLogGroup"
               ]
             },
-            "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8": {
+            "SnsHandlerLambdaVersionKGeAuGJmuLVTCuhoa9FTSujU6SOQKmTnXnekLNsZrd0": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "SnsHandlerLambdaFunction"
                 },
-                "CodeSha256": "kHpCWIhVxcZ5awUyl9FTUO9UTySrMUbyLjscsyPhl6Y="
+                "CodeSha256": "GuBSUgmi6/EXxngLzVwuF1dfncyzdokHH78Wa+6ReVg="
               }
             },
-            "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE": {
+            "HttpHandlerLambdaVersionPeWVsoO4KyrQWISTzDjgGcyX1KW63WvVzPYTXd4nqEU": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "HttpHandlerLambdaFunction"
                 },
-                "CodeSha256": "kHpCWIhVxcZ5awUyl9FTUO9UTySrMUbyLjscsyPhl6Y="
+                "CodeSha256": "GuBSUgmi6/EXxngLzVwuF1dfncyzdokHH78Wa+6ReVg="
               }
             },
             "SNSTopicGroup1snstopic": {
@@ -343,7 +343,7 @@
             "SnsHandlerLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8"
+                "Ref": "SnsHandlerLambdaVersionKGeAuGJmuLVTCuhoa9FTSujU6SOQKmTnXnekLNsZrd0"
               },
               "Export": {
                 "Name": "sls-my-service-dev-SnsHandlerLambdaFunctionQualifiedArn"
@@ -352,7 +352,7 @@
             "HttpHandlerLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE"
+                "Ref": "HttpHandlerLambdaVersionPeWVsoO4KyrQWISTzDjgGcyX1KW63WvVzPYTXd4nqEU"
               },
               "Export": {
                 "Name": "sls-my-service-dev-HttpHandlerLambdaFunctionQualifiedArn"
@@ -416,7 +416,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8"
+          "versionLogicalId": "SnsHandlerLambdaVersionKGeAuGJmuLVTCuhoa9FTSujU6SOQKmTnXnekLNsZrd0"
         },
         "httpHandler": {
           "handler": "handler.httpHandler",
@@ -436,7 +436,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE"
+          "versionLogicalId": "HttpHandlerLambdaVersionPeWVsoO4KyrQWISTzDjgGcyX1KW63WvVzPYTXd4nqEU"
         }
       },
       "resources": {
@@ -460,8 +460,8 @@
     ],
     "options": {},
     "error": {
-      "message": "An error occurred: SNSTopicGroup1snstopic - Resource handler returned message: \"Resource of type 'AWS::SNS::Topic' with identifier 'group1-sns-topic' already exists.\" (RequestToken: c3ab27ff-8f0e-94ac-9e68-1239ddc755e8, HandlerErrorCode: AlreadyExists).",
-      "stack": "ServerlessError2: An error occurred: SNSTopicGroup1snstopic - Resource handler returned message: \"Resource of type 'AWS::SNS::Topic' with identifier 'group1-sns-topic' already exists.\" (RequestToken: c3ab27ff-8f0e-94ac-9e68-1239ddc755e8, HandlerErrorCode: AlreadyExists).\n    at file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:715:832\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AwsDeploy.createFallback (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:715:23563)\n    at async aws:deploy:deploy:updateStack (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:726:5474)\n    at async PluginManager.runHooks (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:9309)\n    at async PluginManager.invoke (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10080)\n    at async PluginManager.spawn (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10441)\n    at async PluginManager.runHooks (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:9309)\n    at async PluginManager.invoke (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10080)\n    at async PluginManager.run (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10811)",
+      "message": "An error occurred: SNSTopicGroup1snstopic - Resource handler returned message: \"Resource of type 'AWS::SNS::Topic' with identifier 'group1-sns-topic' already exists.\" (RequestToken: 69a9e647-adb7-0d01-9799-9095c3f0d43e, HandlerErrorCode: AlreadyExists).",
+      "stack": "ServerlessError2: An error occurred: SNSTopicGroup1snstopic - Resource handler returned message: \"Resource of type 'AWS::SNS::Topic' with identifier 'group1-sns-topic' already exists.\" (RequestToken: 69a9e647-adb7-0d01-9799-9095c3f0d43e, HandlerErrorCode: AlreadyExists).\n    at file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:715:832\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AwsDeploy.createFallback (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:715:23563)\n    at async aws:deploy:deploy:updateStack (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:726:5474)\n    at async PluginManager.runHooks (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:9309)\n    at async PluginManager.invoke (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10080)\n    at async PluginManager.spawn (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10441)\n    at async PluginManager.runHooks (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:9309)\n    at async PluginManager.invoke (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10080)\n    at async PluginManager.run (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10811)",
       "code": "AWS_CLOUD_FORMATION_CREATE_STACK_INTERNAL_S_N_S_TOPIC_CREATE_FAILED"
     },
     "params": {},
@@ -490,9 +490,9 @@
     "projectType": "traditional",
     "versionSf": "4.3.3",
     "serviceProviderAwsCfStackName": "my-service-dev",
-    "serviceUniqueId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/my-service-dev/a8676ba0-7686-11ef-aaeb-029300d73935",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/my-service-dev/a8676ba0-7686-11ef-aaeb-029300d73935",
-    "serviceProviderAwsCfStackCreated": "2024-09-19T12:56:59.587Z",
+    "serviceUniqueId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/my-service-dev/ac74d630-7689-11ef-9a7d-0658c6888297",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/my-service-dev/ac74d630-7689-11ef-9a7d-0658c6888297",
+    "serviceProviderAwsCfStackCreated": "2024-09-19T13:18:34.948Z",
     "serviceProviderAwsCfStackUpdated": null,
     "serviceProviderAwsCfStackStatus": "DELETE_IN_PROGRESS",
     "serviceProviderAwsCfStackOutputs": null
