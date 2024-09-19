@@ -1,0 +1,22 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: steeng
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: group1
+# CHANGE-TO-YOURNAME-aws-node-http-api-project
+service: aws-node-http-api-project
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-southeast-1
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+plugins:
+  - serverless-offline
