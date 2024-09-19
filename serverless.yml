@@ -1,4 +1,4 @@
-service: group1-service
+service: grp1-service
 frameworkVersion: '3'
 
 provider:
@@ -20,7 +20,7 @@ functions:
       - sqs:
           arn:
             Fn::GetAtt:
-              - group1SQSQueue
+              - grp1SQSQueue
               - Arn
           batchSize: 10
           maximumBatchingWindow: 60
@@ -28,10 +28,10 @@ functions:
 
 resources:
   Resources:
-    group1SQSQueue:
+    grp1SQSQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: group1-sqs-queue
+        QueueName: grp1-sqs-queue
 
 plugins:
   - serverless-offline
