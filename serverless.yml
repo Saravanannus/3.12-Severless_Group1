@@ -1,38 +1,37 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: skillsunionsaravanan
 service: my-service
+frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs18.x  # Updated to Node.js 18.x
-  region: us-east-1
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - sqs:SendMessage
-      Resource:
-        - Fn::GetAtt:
-            - MessageQueue
-            - Arn
+  runtime: nodejs20.x
+  region: ap-southeast-1
+
 functions:
-  sendToSQS:
-    handler: handler.sendMessage
-    environment:
-      SQS_QUEUE_URL:
-        Ref: MessageQueue
+  postHandler:
+    handler: handler.postHandler
     events:
-      - http:
-          path: send
+      - httpApi:
+          path: /post-endpoint
           method: post
+
+  sqsHandler:
+    handler: handler.sqsHandler
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - group1SQSQueue
+              - Arn
+          batchSize: 10
+          maximumBatchingWindow: 60
+          functionResponseType: ReportBatchItemFailures
 
 resources:
   Resources:
-    MessageQueue:
+    group1SQSQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: MyQueue
+        QueueName: group1-sqs-queue
 
-  Outputs:
-    SQSQueueUrl:
-      Value:
-        Ref: MessageQueue
+plugins:
+  - serverless-offline

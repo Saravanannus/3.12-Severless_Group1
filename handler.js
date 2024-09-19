@@ -5,7 +5,8 @@ module.exports.sendMessage = async (event) => {
   let body;
   
   try {
-    // body = JSON.parse(event.body); // Parsing the request body
+    // Parse the incoming request body
+    body = JSON.parse(event.body);
   } catch (error) {
     console.error('Error parsing JSON:', error);
     return {
@@ -17,8 +18,8 @@ module.exports.sendMessage = async (event) => {
   }
 
   const params = {
-    QueueUrl: process.env.SQS_QUEUE_URL,
-    MessageBody: "JSON.stringify(body)",
+    QueueUrl: process.env.SQS_QUEUE_URL, // SQS queue URL from environment variables
+    MessageBody: JSON.stringify(body), // Convert the body back to JSON string
   };
 
   try {
@@ -27,11 +28,11 @@ module.exports.sendMessage = async (event) => {
       statusCode: 200,
       body: JSON.stringify({
         message: 'Message sent to SQS',
-        messageId: data.MessageId
+        messageId: data.MessageId, // SQS message ID for tracking
       }),
     };
   } catch (error) {
-    console.error(error);
+    console.error('Error sending message to SQS:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({
