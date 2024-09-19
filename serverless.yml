@@ -8,12 +8,12 @@ provider:
   region: ap-southeast-1
 
 functions:
-  snsHandler:
-    handler: handler.snsHandler
-    events:
-      - sns: group1-sns-topic
-        arn:
-          Fn::GetAtt: [SNSTopic, Arn]
+  #snsHandler:
+    # handler: handler.snsHandler
+    # events:
+    #   - sns: group1-sns-topic
+    #     arn:
+    #       Fn::GetAtt: [SNSTopic, Arn]
 
   httpHandler:
     handler: handler.httpHandler
@@ -21,13 +21,25 @@ functions:
       - httpApi:
           path: /hello
           method: get
+       - sqs:
+          arn:
+            Fn::GetAtt:
+              - SaraSQSQueue
+              - Arn
+          batchSize: 10
+          maximumBatchingWindow: 60
+          functionResponseType: ReportBatchItemFailures
+    
 
 resources:
-  Resources:
-    SNSTopic:
-      Type: AWS::SNS::Topic
+  # Resources:
+  #   SNSTopic:
+  #     Type: AWS::SNS::Topic
+  #     Properties:
+  #       TopicName: group1-sns-topic
+    SaraSQSQueue:
+      Type: AWS::SQS::Queue
       Properties:
-        TopicName: group1-sns-topic
-
+        QueueName: sara-sqs-queue
 plugins:
   - serverless-offline
