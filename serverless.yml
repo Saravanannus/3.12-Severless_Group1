@@ -1,15 +1,17 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: skillsunionsaravanan
 service: my-service
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs20.x
   region: ap-southeast-1
 
 functions:
   snsHandler:
     handler: handler.snsHandler
     events:
-      - sns: my-sns-topic
+      - sns: group1-sns-topic
         arn:
           Fn::GetAtt: [SNSTopic, Arn]
 
@@ -25,7 +27,7 @@ resources:
     SNSTopic:
       Type: AWS::SNS::Topic
       Properties:
-        TopicName: my-sns-topic
+        TopicName: group1-sns-topic
 
 plugins:
   - serverless-offline

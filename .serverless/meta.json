@@ -1,21 +1,5 @@
 {
-  "unknown": {
-    "versionSfCore": null,
-    "versionFramework": "4.3.3",
-    "isWithinCompose": false,
-    "composeOrgName": null,
-    "composeServiceName": null,
-    "command": [],
-    "options": {},
-    "error": null,
-    "machineId": "5a27faf6d96ee7f38f434a589c4cca99",
-    "serviceProviderAwsCfStackId": null,
-    "serviceProviderAwsCfStackCreated": null,
-    "serviceProviderAwsCfStackUpdated": null,
-    "serviceProviderAwsCfStackStatus": null,
-    "serviceProviderAwsCfStackOutputs": null
-  },
-  "/home/vennila/3.12-Severless_Group1": {
+  "/home/saravanan/3.12-Severless_Group1": {
     "versionSfCore": null,
     "versionFramework": "4.3.3",
     "isWithinCompose": false,
@@ -25,79 +9,492 @@
       "default-aws-credential-resolver": "<REDACTED>"
     },
     "composeServiceName": null,
-    "servicePath": "/home/vennila/3.12-Severless_Group1",
+    "servicePath": "/home/saravanan/3.12-Severless_Group1",
     "serviceConfigFileName": "serverless.yml",
     "service": {
-      "org": "steeng",
-      "app": "group1",
-      "service": "aws-node-http-api-project",
+      "org": "skillsunionsaravanan",
+      "service": "my-service",
       "provider": {
         "name": "aws",
-        "runtime": "nodejs18.x",
+        "runtime": "nodejs20.x",
         "region": "ap-southeast-1",
         "stage": "dev",
-        "versionFunctions": true
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "SnsHandlerLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/my-service-dev-snsHandler"
+              }
+            },
+            "HttpHandlerLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/my-service-dev-httpHandler"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "my-service",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/my-service-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/my-service-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "my-service",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "SnsHandlerLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
+                  "S3Key": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z/my-service.zip"
+                },
+                "Handler": "handler.snsHandler",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "my-service-dev-snsHandler",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "SnsHandlerLogGroup"
+              ]
+            },
+            "HttpHandlerLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
+                  "S3Key": "serverless/my-service/dev/1726750596148-2024-09-19T12:56:36.148Z/my-service.zip"
+                },
+                "Handler": "handler.httpHandler",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "my-service-dev-httpHandler",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "HttpHandlerLogGroup"
+              ]
+            },
+            "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "SnsHandlerLambdaFunction"
+                },
+                "CodeSha256": "kHpCWIhVxcZ5awUyl9FTUO9UTySrMUbyLjscsyPhl6Y="
+              }
+            },
+            "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "HttpHandlerLambdaFunction"
+                },
+                "CodeSha256": "kHpCWIhVxcZ5awUyl9FTUO9UTySrMUbyLjscsyPhl6Y="
+              }
+            },
+            "SNSTopicGroup1snstopic": {
+              "Type": "AWS::SNS::Topic",
+              "Properties": {
+                "TopicName": "group1-sns-topic",
+                "Subscription": [
+                  {
+                    "Endpoint": {
+                      "Fn::GetAtt": [
+                        "SnsHandlerLambdaFunction",
+                        "Arn"
+                      ]
+                    },
+                    "Protocol": "lambda"
+                  }
+                ]
+              }
+            },
+            "SnsHandlerLambdaPermissionGroup1snstopicSNS": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "SnsHandlerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "sns.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":sns:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      "group1-sns-topic"
+                    ]
+                  ]
+                }
+              }
+            },
+            "HttpApi": {
+              "Type": "AWS::ApiGatewayV2::Api",
+              "Properties": {
+                "Name": "dev-my-service",
+                "ProtocolType": "HTTP"
+              }
+            },
+            "HttpApiStage": {
+              "Type": "AWS::ApiGatewayV2::Stage",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "StageName": "$default",
+                "AutoDeploy": true,
+                "DefaultRouteSettings": {
+                  "DetailedMetricsEnabled": false
+                }
+              }
+            },
+            "HttpHandlerLambdaPermissionHttpApi": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "HttpHandlerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "HttpApi"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "HttpApiIntegrationHttpHandler": {
+              "Type": "AWS::ApiGatewayV2::Integration",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "IntegrationType": "AWS_PROXY",
+                "IntegrationUri": {
+                  "Fn::GetAtt": [
+                    "HttpHandlerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "PayloadFormatVersion": "2.0",
+                "TimeoutInMillis": 30000
+              }
+            },
+            "HttpApiRouteGetHello": {
+              "Type": "AWS::ApiGatewayV2::Route",
+              "Properties": {
+                "ApiId": {
+                  "Ref": "HttpApi"
+                },
+                "RouteKey": "GET /hello",
+                "Target": {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      "integrations",
+                      {
+                        "Ref": "HttpApiIntegrationHttpHandler"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "DependsOn": "HttpApiIntegrationHttpHandler"
+            },
+            "SNSTopic": {
+              "Type": "AWS::SNS::Topic",
+              "Properties": {
+                "TopicName": "group1-sns-topic"
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-ap-southeast-1-1ca40138-df29",
+              "Export": {
+                "Name": "sls-my-service-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "SnsHandlerLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8"
+              },
+              "Export": {
+                "Name": "sls-my-service-dev-SnsHandlerLambdaFunctionQualifiedArn"
+              }
+            },
+            "HttpHandlerLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE"
+              },
+              "Export": {
+                "Name": "sls-my-service-dev-HttpHandlerLambdaFunctionQualifiedArn"
+              }
+            },
+            "HttpApiId": {
+              "Description": "Id of the HTTP API",
+              "Value": {
+                "Ref": "HttpApi"
+              },
+              "Export": {
+                "Name": "sls-my-service-dev-HttpApiId"
+              }
+            },
+            "HttpApiUrl": {
+              "Description": "URL of the HTTP API",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    }
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-my-service-dev-HttpApiUrl"
+              }
+            }
+          }
+        },
+        "vpc": {}
       },
       "functions": {
-        "api": {
-          "handler": "index.handler",
+        "snsHandler": {
+          "handler": "handler.snsHandler",
+          "events": [
+            {
+              "sns": "group1-sns-topic",
+              "arn": {
+                "Fn::GetAtt": [
+                  "SNSTopic",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "name": "my-service-dev-snsHandler",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "SnsHandlerLambdaVersion9kwp311bpV1UXdTS0namEZQspxHqbYnJM6sIV78fq8"
+        },
+        "httpHandler": {
+          "handler": "handler.httpHandler",
           "events": [
             {
               "httpApi": {
-                "path": "/",
+                "path": "/hello",
                 "method": "get"
-              }
+              },
+              "resolvedMethod": "GET",
+              "resolvedPath": "/hello"
             }
-          ]
+          ],
+          "name": "my-service-dev-httpHandler",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "HttpHandlerLambdaVersionvkMUZalZiMPikhIrTUZVyeHyck20pUpJ6RrDM9GiE"
         }
+      },
+      "resources": {
+        "Resources": {
+          "SNSTopic": {
+            "Type": "AWS::SNS::Topic",
+            "Properties": {
+              "TopicName": "group1-sns-topic"
+            }
+          }
+        },
+        "Outputs": {}
       },
       "plugins": [
         "serverless-offline"
       ]
     },
-    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: steeng\n# \"app\" enables Serverless Framework Dashboard features and sharing them with other Services.\napp: group1\n# CHANGE-TO-YOURNAME-aws-node-http-api-project\nservice: aws-node-http-api-project\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  region: ap-southeast-1\n\nfunctions:\n  api:\n    handler: index.handler\n    events:\n      - httpApi:\n          path: /\n          method: get\n\nplugins:\n  - serverless-offline",
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: skillsunionsaravanan\nservice: my-service\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: ap-southeast-1\n\nfunctions:\n  snsHandler:\n    handler: handler.snsHandler\n    events:\n      - sns: group1-sns-topic\n        arn:\n          Fn::GetAtt: [SNSTopic, Arn]\n\n  httpHandler:\n    handler: handler.httpHandler\n    events:\n      - httpApi:\n          path: /hello\n          method: get\n\nresources:\n  Resources:\n    SNSTopic:\n      Type: AWS::SNS::Topic\n      Properties:\n        TopicName: group1-sns-topic\n\nplugins:\n  - serverless-offline\n",
     "command": [
       "deploy"
     ],
     "options": {},
     "error": {
-      "message": "Serverless plugin \"serverless-offline\" not found. Make sure it's installed and listed in the \"plugins\" section of your serverless config file. Use the --debug flag to learn more.",
-      "stack": "ServerlessError2: Serverless plugin \"serverless-offline\" not found. Make sure it's installed and listed in the \"plugins\" section of your serverless config file. Use the --debug flag to learn more.\n    at PluginManager.resolveServicePlugins (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:913:2669)\n    at async PluginManager.loadAllPlugins (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:913:1293)\n    at async Serverless.init (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:920:9930)\n    at async runFramework (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:943:1236)\n    at async route (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:966:29270)\n    at async Object.run2 [as run] (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:966:29668)\n    at async run3 (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:966:30928)",
-      "code": "PLUGIN_NOT_FOUND"
+      "message": "An error occurred: SNSTopicGroup1snstopic - Resource handler returned message: \"Resource of type 'AWS::SNS::Topic' with identifier 'group1-sns-topic' already exists.\" (RequestToken: c3ab27ff-8f0e-94ac-9e68-1239ddc755e8, HandlerErrorCode: AlreadyExists).",
+      "stack": "ServerlessError2: An error occurred: SNSTopicGroup1snstopic - Resource handler returned message: \"Resource of type 'AWS::SNS::Topic' with identifier 'group1-sns-topic' already exists.\" (RequestToken: c3ab27ff-8f0e-94ac-9e68-1239ddc755e8, HandlerErrorCode: AlreadyExists).\n    at file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:715:832\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AwsDeploy.createFallback (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:715:23563)\n    at async aws:deploy:deploy:updateStack (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:726:5474)\n    at async PluginManager.runHooks (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:9309)\n    at async PluginManager.invoke (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10080)\n    at async PluginManager.spawn (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10441)\n    at async PluginManager.runHooks (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:9309)\n    at async PluginManager.invoke (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10080)\n    at async PluginManager.run (file:///home/saravanan/.serverless/releases/4.3.3/package/dist/sf-core.js:913:10811)",
+      "code": "AWS_CLOUD_FORMATION_CREATE_STACK_INTERNAL_S_N_S_TOPIC_CREATE_FAILED"
     },
     "params": {},
-    "machineId": "5a27faf6d96ee7f38f434a589c4cca99",
+    "machineId": "11295698c2e2d6c98f7d683cbc42233d",
     "stage": "dev",
     "accessKeyV2": "<REDACTED>",
     "accessKeyV1": "<REDACTED>",
-    "orgId": "598de082-5e3c-43c5-b91e-809ee7f4da44",
-    "orgName": "steeng",
-    "userId": "R8ZqMGJWcr7Ds7Cw3L",
+    "orgId": "3b5d5ca1-dee6-4733-a288-61d42aff11dd",
+    "orgName": "skillsunionsaravanan",
+    "userId": "mM40NZKZ0VXF4SG03g",
     "dashboard": {
-      "isEnabledForService": true,
+      "isEnabledForService": false,
       "requiredAuthentication": false,
-      "orgFeaturesInUse": {
-        "providers": false,
-        "monitoring": false
-      },
+      "orgFeaturesInUse": null,
       "orgObservabilityIntegrations": null,
-      "serviceAppId": "cBXknHMYSCNHQMQ2ph",
+      "serviceAppId": null,
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "userName": "steeng",
+    "userName": "skillsunionsaravanan",
     "subscription": null,
-    "userEmail": "nilarajan@gmail.com",
+    "userEmail": "saravanannus@gmail.com",
     "serviceProviderAwsRegion": "ap-southeast-1",
     "serviceProviderAwsCredentials": "<REDACTED>",
     "serviceProviderAwsAccountId": "255945442255",
     "projectType": "traditional",
     "versionSf": "4.3.3",
-    "serviceUniqueId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/ECS-Console-V2-Service-ce6-group3-superset-svc2-ce6-capstone-group3-a5680766/c09049a0-7536-11ef-93df-02ccc0c70773",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/ECS-Console-V2-Service-ce6-group3-superset-svc2-ce6-capstone-group3-a5680766/c09049a0-7536-11ef-93df-02ccc0c70773",
-    "serviceProviderAwsCfStackCreated": "2024-09-17T20:52:29.165Z",
+    "serviceProviderAwsCfStackName": "my-service-dev",
+    "serviceUniqueId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/my-service-dev/a8676ba0-7686-11ef-aaeb-029300d73935",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/my-service-dev/a8676ba0-7686-11ef-aaeb-029300d73935",
+    "serviceProviderAwsCfStackCreated": "2024-09-19T12:56:59.587Z",
     "serviceProviderAwsCfStackUpdated": null,
-    "serviceProviderAwsCfStackStatus": "CREATE_FAILED",
+    "serviceProviderAwsCfStackStatus": "DELETE_IN_PROGRESS",
     "serviceProviderAwsCfStackOutputs": null
   }
 }
