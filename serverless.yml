@@ -1,4 +1,4 @@
-service: my-service
+service: group1-service
 frameworkVersion: '3'
 
 provider:
