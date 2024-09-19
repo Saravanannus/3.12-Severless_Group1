@@ -4,42 +4,35 @@ service: my-service
 
 provider:
   name: aws
-  runtime: nodejs20.x
-  region: ap-southeast-1
-
+  runtime: nodejs18.x  # Updated to Node.js 18.x
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource:
+        - Fn::GetAtt:
+            - MessageQueue
+            - Arn
 functions:
-  #snsHandler:
-    # handler: handler.snsHandler
-    # events:
-    #   - sns: group1-sns-topic
-    #     arn:
-    #       Fn::GetAtt: [SNSTopic, Arn]
-
-  httpHandler:
-    handler: handler.httpHandler
+  sendToSQS:
+    handler: handler.sendMessage
+    environment:
+      SQS_QUEUE_URL:
+        Ref: MessageQueue
     events:
-      - httpApi:
-          path: /hello
-          method: get
-       - sqs:
-          arn:
-            Fn::GetAtt:
-              - SaraSQSQueue
-              - Arn
-          batchSize: 10
-          maximumBatchingWindow: 60
-          functionResponseType: ReportBatchItemFailures
-    
+      - http:
+          path: send
+          method: post
 
 resources:
-  # Resources:
-  #   SNSTopic:
-  #     Type: AWS::SNS::Topic
-  #     Properties:
-  #       TopicName: group1-sns-topic
-    SaraSQSQueue:
+  Resources:
+    MessageQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: sara-sqs-queue
-plugins:
-  - serverless-offline
+        QueueName: MyQueue
+
+  Outputs:
+    SQSQueueUrl:
+      Value:
+        Ref: MessageQueue
