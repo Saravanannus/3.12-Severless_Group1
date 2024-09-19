@@ -14,5 +14,90 @@
     "serviceProviderAwsCfStackUpdated": null,
     "serviceProviderAwsCfStackStatus": null,
     "serviceProviderAwsCfStackOutputs": null
+  },
+  "/home/vennila/3.12-Severless_Group1": {
+    "versionSfCore": null,
+    "versionFramework": "4.3.3",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>"
+    },
+    "composeServiceName": null,
+    "servicePath": "/home/vennila/3.12-Severless_Group1",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "steeng",
+      "app": "group1",
+      "service": "aws-node-http-api-project",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs18.x",
+        "region": "ap-southeast-1",
+        "stage": "dev",
+        "versionFunctions": true
+      },
+      "functions": {
+        "api": {
+          "handler": "index.handler",
+          "events": [
+            {
+              "httpApi": {
+                "path": "/",
+                "method": "get"
+              }
+            }
+          ]
+        }
+      },
+      "plugins": [
+        "serverless-offline"
+      ]
+    },
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: steeng\n# \"app\" enables Serverless Framework Dashboard features and sharing them with other Services.\napp: group1\n# CHANGE-TO-YOURNAME-aws-node-http-api-project\nservice: aws-node-http-api-project\n\nprovider:\n  name: aws\n  runtime: nodejs18.x\n  region: ap-southeast-1\n\nfunctions:\n  api:\n    handler: index.handler\n    events:\n      - httpApi:\n          path: /\n          method: get\n\nplugins:\n  - serverless-offline",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "error": {
+      "message": "Serverless plugin \"serverless-offline\" not found. Make sure it's installed and listed in the \"plugins\" section of your serverless config file. Use the --debug flag to learn more.",
+      "stack": "ServerlessError2: Serverless plugin \"serverless-offline\" not found. Make sure it's installed and listed in the \"plugins\" section of your serverless config file. Use the --debug flag to learn more.\n    at PluginManager.resolveServicePlugins (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:913:2669)\n    at async PluginManager.loadAllPlugins (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:913:1293)\n    at async Serverless.init (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:920:9930)\n    at async runFramework (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:943:1236)\n    at async route (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:966:29270)\n    at async Object.run2 [as run] (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:966:29668)\n    at async run3 (file:///home/vennila/.serverless/releases/4.3.3/package/dist/sf-core.js:966:30928)",
+      "code": "PLUGIN_NOT_FOUND"
+    },
+    "params": {},
+    "machineId": "5a27faf6d96ee7f38f434a589c4cca99",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "598de082-5e3c-43c5-b91e-809ee7f4da44",
+    "orgName": "steeng",
+    "userId": "R8ZqMGJWcr7Ds7Cw3L",
+    "dashboard": {
+      "isEnabledForService": true,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": {
+        "providers": false,
+        "monitoring": false
+      },
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": "cBXknHMYSCNHQMQ2ph",
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "steeng",
+    "subscription": null,
+    "userEmail": "nilarajan@gmail.com",
+    "serviceProviderAwsRegion": "ap-southeast-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "255945442255",
+    "projectType": "traditional",
+    "versionSf": "4.3.3",
+    "serviceUniqueId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/ECS-Console-V2-Service-ce6-group3-superset-svc2-ce6-capstone-group3-a5680766/c09049a0-7536-11ef-93df-02ccc0c70773",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-southeast-1:255945442255:stack/ECS-Console-V2-Service-ce6-group3-superset-svc2-ce6-capstone-group3-a5680766/c09049a0-7536-11ef-93df-02ccc0c70773",
+    "serviceProviderAwsCfStackCreated": "2024-09-17T20:52:29.165Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_FAILED",
+    "serviceProviderAwsCfStackOutputs": null
   }
 }

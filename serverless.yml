@@ -1,22 +1,31 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: steeng
-# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
-app: group1
-# CHANGE-TO-YOURNAME-aws-node-http-api-project
-service: aws-node-http-api-project
+service: my-service
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs14.x
   region: ap-southeast-1
 
 functions:
-  api:
-    handler: index.handler
+  snsHandler:
+    handler: handler.snsHandler
+    events:
+      - sns: my-sns-topic
+        arn:
+          Fn::GetAtt: [SNSTopic, Arn]
+
+  httpHandler:
+    handler: handler.httpHandler
     events:
       - httpApi:
-          path: /
+          path: /hello
           method: get
+
+resources:
+  Resources:
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: my-sns-topic
 
 plugins:
   - serverless-offline
