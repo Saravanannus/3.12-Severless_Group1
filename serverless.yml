@@ -10,7 +10,7 @@ provider:
         - sqs:SendMessage
       Resource:
         - Fn::GetAtt:
-            - grp1-MessageQueue
+            - MessageQueue
             - Arn
 
 functions:
