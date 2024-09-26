@@ -18,7 +18,7 @@ functions:
     handler: handler.sendMessage
     environment:
       SQS_QUEUE_URL:
-        Ref: grp1-MessageQueue
+        Ref: grp1MessageQueue
     events:
       - http:
           path: send
@@ -26,7 +26,7 @@ functions:
 
 resources:
   Resources:
-    grp1-MessageQueue:
+    grp1MessageQueue:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: grp1Queue
@@ -34,7 +34,7 @@ resources:
   Outputs:
     SQSQueueUrl:
       Value:
-        Ref: grp1-MessageQueue
+        Ref: grp1MessageQueue
 
 
 
