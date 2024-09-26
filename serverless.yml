@@ -1,37 +1,79 @@
-service: grp1-service
-frameworkVersion: '3'
+service: grp1-sqs-lambda
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs18.x  # Updated to Node.js 18.x
   region: ap-southeast-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource:
+        - Fn::GetAtt:
+            - grp1-MessageQueue
+            - Arn
 
 functions:
-  postHandler:
-    handler: handler.postHandler
+  sendToSQS:
+    handler: handler.sendMessage
+    environment:
+      SQS_QUEUE_URL:
+        Ref: grp1-MessageQueue
     events:
-      - httpApi:
-          path: /post-endpoint
+      - http:
+          path: send
           method: post
-
-  sqsHandler:
-    handler: handler.sqsHandler
-    events:
-      - sqs:
-          arn:
-            Fn::GetAtt:
-              - grp1SQSQueue
-              - Arn
-          batchSize: 10
-          maximumBatchingWindow: 60
-          functionResponseType: ReportBatchItemFailures
 
 resources:
   Resources:
-    grp1SQSQueue:
+    grp1-MessageQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: grp1-sqs-queue
+        QueueName: grp1Queue
 
-plugins:
-  - serverless-offline
+  Outputs:
+    SQSQueueUrl:
+      Value:
+        Ref: grp1-MessageQueue
+
+
+
+
+
+# service: grp1-service
+# frameworkVersion: '3'
+
+# provider:
+#   name: aws
+#   runtime: nodejs20.x
+#   region: ap-southeast-1
+
+# functions:
+#   postHandler:
+#     handler: handler.postHandler
+#     events:
+#       - httpApi:
+#           path: /post-endpoint
+#           method: post
+
+#   sqsHandler:
+#     handler: handler.sqsHandler
+#     events:
+#       - sqs:
+#           arn:
+#             Fn::GetAtt:
+#               - grp1SQSQueue
+#               - Arn
+#           batchSize: 10
+#           maximumBatchingWindow: 60
+#           functionResponseType: ReportBatchItemFailures
+
+# resources:
+#   Resources:
+#     grp1SQSQueue:
+#       Type: AWS::SQS::Queue
+#       Properties:
+#         QueueName: grp1-sqs-queue
+
+# plugins:
+#   - serverless-offline
